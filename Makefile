@@ -1,4 +1,4 @@
-.PHONY: all build-backend build-frontend build run-server run-discord run-telegram clean help
+.PHONY: all build-backend build-frontend build run-server run-discord run-telegram run-trading test clean help
 
 # Build all components
 all: build
@@ -9,6 +9,7 @@ build-backend:
 	@go build -o bin/server ./cmd/server
 	@go build -o bin/discord ./cmd/discord
 	@go build -o bin/telegram ./cmd/telegram
+	@go build -o bin/trading ./cmd/trading
 	@echo "Backend build complete!"
 
 # Build Rust frontend
@@ -32,6 +33,16 @@ run-discord:
 run-telegram:
 	@./bin/telegram
 
+# Run trading bot
+run-trading:
+	@./bin/trading
+
+# Run tests
+test:
+	@echo "Running tests..."
+	@go test ./... -v
+	@echo "Tests complete!"
+
 # Clean build artifacts
 clean:
 	@echo "Cleaning build artifacts..."
@@ -51,5 +62,7 @@ help:
 	@echo "  make run-server         - Run the HTTP server with frontend"
 	@echo "  make run-discord        - Run the Discord bot"
 	@echo "  make run-telegram       - Run the Telegram bot"
+	@echo "  make run-trading        - Run the meme coin trading bot"
+	@echo "  make test               - Run all tests"
 	@echo "  make clean              - Clean all build artifacts"
 	@echo "  make help               - Show this help message"
