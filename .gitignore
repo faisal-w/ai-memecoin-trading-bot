@@ -141,3 +141,22 @@ token.txt
 # Meme output
 output/
 generated_memes/
+
+# Go specific
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# Rust specific
+/target
+/frontend/target
+/frontend/dist
+Cargo.lock
+**/*.rs.bk
+*.pdb
