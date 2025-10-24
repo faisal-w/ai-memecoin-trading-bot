@@ -1,21 +1,36 @@
 # Quick Start Guide
 
-This guide will help you get the meme bot up and running quickly.
+Get the meme bot up and running in minutes!
 
-## Step 1: Install Dependencies
+## Prerequisites
+
+- **Go:** Version 1.20 or higher
+- **Rust:** Version 1.70 or higher  
+- **Trunk:** Install with `cargo install trunk`
+
+## Step 1: Installation
 
 ```bash
-pip install -r requirements.txt
+# Clone the repository
+git clone https://github.com/mumugogoing/meme_bot.git
+cd meme_bot
+
+# Build the project
+make build
 ```
 
-## Step 2: Configure Bot Token
+This will build both the Go backend and Rust frontend.
 
-1. Copy the example environment file:
+## Step 2: Configuration (Optional)
+
+For Discord/Telegram bots, you'll need tokens:
+
 ```bash
+# Copy the example environment file
 cp .env.example .env
-```
 
-2. Choose your platform and get a token:
+# Edit .env and add your tokens
+```
 
 ### For Discord:
 - Visit https://discord.com/developers/applications
@@ -23,77 +38,106 @@ cp .env.example .env
 - Go to "Bot" section and create a bot
 - Copy the token and paste it in `.env` as `DISCORD_TOKEN`
 - Enable "Message Content Intent" in Bot settings
-- Invite bot to your server using OAuth2 URL generator
 
 ### For Telegram:
 - Open Telegram and message @BotFather
 - Send `/newbot` and follow instructions
 - Copy the token and paste it in `.env` as `TELEGRAM_TOKEN`
 
-## Step 3: Add Meme Templates (Optional)
+## Step 3: Run the Application
 
-Create a `meme_templates` directory and add your meme images:
+### Option 1: Web Interface (Easiest!)
 
 ```bash
-mkdir meme_templates
-# Copy your meme template images here
+make run-server
 ```
 
-## Step 4: Run the Bot
+Then open your browser to: **http://localhost:8080**
 
-For Discord:
+You can now generate memes through the web interface!
+
+### Option 2: Discord Bot
+
 ```bash
-python main.py discord
+make run-discord
 ```
 
-For Telegram:
+Commands in Discord:
+- `!meme sample.png "Top Text" "Bottom Text"`
+- `!templates`
+- `!help_meme`
+
+### Option 3: Telegram Bot
+
 ```bash
-python main.py telegram
+make run-telegram
 ```
 
-## Step 5: Test the Bot
+Commands in Telegram:
+- `/start`
+- `/meme sample.png` (then reply with: Top Text | Bottom Text)
+- `/templates`
+- `/help`
+
+## Step 4: Add Your Own Templates (Optional)
+
+Add meme template images to the `meme_templates/` directory:
+
+```bash
+# Copy your meme images
+cp your-meme.jpg meme_templates/
+
+# The templates will be automatically available!
+```
+
+Supported formats: PNG, JPG, JPEG, GIF
+
+## Quick Commands Reference
+
+```bash
+make build              # Build everything
+make run-server         # Run web interface
+make run-discord        # Run Discord bot
+make run-telegram       # Run Telegram bot
+make clean             # Clean build artifacts
+```
+
+## Example Usage
+
+### Web Interface:
+1. Select a template from the dropdown
+2. Enter your top and bottom text
+3. Click "Generate Meme"
+4. Download your meme!
 
 ### Discord:
-Type in any channel where the bot is present:
 ```
-!help_meme
-!templates
+!meme sample.png "When you" "Use Go and Rust"
 ```
 
 ### Telegram:
-Message your bot:
 ```
-/start
-/help
-/templates
+/meme sample.png
+(reply with): When you | Use Go and Rust
 ```
 
-## Common Commands
+## Troubleshooting
 
-### Creating a Meme from Template:
+**Build fails?**
+- Install Go 1.20+: https://go.dev/dl/
+- Install Rust: https://rustup.rs/
+- Install trunk: `cargo install trunk`
+- Add wasm target: `rustup target add wasm32-unknown-unknown`
 
-**Discord:**
-```
-!meme template_name.jpg "Top Text" "Bottom Text"
-```
+**Server won't start?**
+- Check if port 8080 is available
+- Set a different port in `.env`: `SERVER_PORT=3000`
 
-**Telegram:**
-```
-/meme template_name.jpg
-(then reply with): Top Text | Bottom Text
-```
-
-### Creating a Meme from URL:
-
-**Discord:**
-```
-!memeurl https://example.com/image.jpg "Top Text" "Bottom Text"
-```
-
-**Telegram:**
-```
-/memeurl https://example.com/image.jpg
-(then reply with): Top Text | Bottom Text
-```
+**Bots don't respond?**
+- Verify tokens in `.env` file
+- Check bot permissions on Discord
+- Make sure bot is running in terminal
 
 That's it! You're ready to create memes! 🎉
+
+For more details, see [README.md](README.md)

@@ -1,6 +1,6 @@
 # Meme Bot 🎭
 
-A versatile meme generation bot that works with both Discord and Telegram platforms. Create hilarious memes from templates or custom images with simple commands!
+A versatile meme generation bot that works with both Discord and Telegram platforms, now featuring a modern web interface. Built with **Go (Golang)** for the backend and **Rust** for the frontend!
 
 ## Features
 
@@ -10,11 +10,29 @@ A versatile meme generation bot that works with both Discord and Telegram platfo
 - 🖼️ Classic meme text styling (white text with black outline)
 - 📝 Easy-to-use command interface
 - 🔧 Configurable with environment variables
+- 🚀 **NEW:** Web-based frontend built with Rust (Yew framework)
+- ⚡ **NEW:** High-performance Go backend
+- 🔌 RESTful API for frontend integration
+
+## Tech Stack
+
+**Backend:**
+- Go (Golang) 1.20+
+- Discord bot library: discordgo
+- Telegram bot library: telegram-bot-api
+- HTTP server: gorilla/mux
+- Image processing: golang/freetype
+
+**Frontend:**
+- Rust with Yew framework (WebAssembly)
+- Modern, responsive UI
+- Real-time meme generation
 
 ## Prerequisites
 
-- Python 3.8 or higher
-- pip (Python package manager)
+- Go 1.20 or higher
+- Rust 1.70 or higher (with cargo)
+- Trunk (Rust WASM bundler): `cargo install trunk`
 - A Discord Bot Token (for Discord) or Telegram Bot Token (for Telegram)
 
 ## Installation
@@ -25,19 +43,21 @@ git clone https://github.com/mumugogoing/meme_bot.git
 cd meme_bot
 ```
 
-2. Install required dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-3. Set up environment variables:
+2. Set up environment variables:
 ```bash
 cp .env.example .env
 ```
 
-4. Edit `.env` file and add your bot tokens:
+3. Edit `.env` file and add your bot tokens:
    - For Discord: Add your `DISCORD_TOKEN`
    - For Telegram: Add your `TELEGRAM_TOKEN`
+
+4. Build the project:
+```bash
+make build
+```
+
+This will build both the Go backend and Rust frontend.
 
 ## Configuration
 
@@ -52,7 +72,13 @@ TELEGRAM_TOKEN=your_telegram_bot_token_here
 
 # Bot Settings
 BOT_PREFIX=!
-ADMIN_IDS=123456789,987654321
+
+# Server Settings (for web interface)
+SERVER_PORT=8080
+
+# Directories
+TEMPLATES_DIR=meme_templates
+OUTPUT_DIR=output
 ```
 
 ### Getting Bot Tokens
@@ -72,16 +98,24 @@ ADMIN_IDS=123456789,987654321
 
 ## Usage
 
+### Running the Web Interface
+
+```bash
+make run-server
+```
+
+Then open your browser to `http://localhost:8080` to access the web interface!
+
 ### Running the Discord Bot
 
 ```bash
-python main.py discord
+make run-discord
 ```
 
 ### Running the Telegram Bot
 
 ```bash
-python main.py telegram
+make run-telegram
 ```
 
 ## Commands
@@ -135,33 +169,69 @@ meme_templates/
 
 ```
 meme_bot/
-├── main.py                 # Main entry point
-├── discord_bot.py          # Discord bot implementation
-├── telegram_bot.py         # Telegram bot implementation
-├── meme_generator.py       # Meme generation logic
-├── config.py               # Configuration management
-├── requirements.txt        # Python dependencies
-├── .env.example           # Example environment variables
-├── .gitignore             # Git ignore rules
-├── README.md              # This file
-├── meme_templates/        # Directory for meme templates (create this)
-└── output/                # Generated memes (auto-created)
+├── cmd/                    # Go command-line applications
+│   ├── server/            # HTTP API server with frontend
+│   ├── discord/           # Discord bot
+│   └── telegram/          # Telegram bot
+├── internal/              # Internal Go packages
+│   └── config/           # Configuration management
+├── pkg/                   # Public Go packages
+│   └── meme/             # Meme generation logic
+├── frontend/              # Rust frontend (Yew)
+│   ├── src/              # Rust source code
+│   ├── Cargo.toml        # Rust dependencies
+│   └── index.html        # HTML template
+├── meme_templates/        # Directory for meme templates
+├── output/                # Generated memes (auto-created)
+├── go.mod                 # Go module definition
+├── go.sum                 # Go dependencies
+├── Makefile               # Build automation
+├── .env.example          # Example environment variables
+├── .gitignore            # Git ignore rules
+└── README.md             # This file
 ```
 
 ## Development
 
-### Running Tests
+### Building the Project
 
 ```bash
-python -m pytest tests/
+# Build everything
+make build
+
+# Build only backend
+make build-backend
+
+# Build only frontend
+make build-frontend
 ```
 
-### Code Style
+### Running in Development Mode
 
-This project follows PEP 8 guidelines. You can check your code with:
+For the frontend with hot reload:
+```bash
+cd frontend
+trunk serve
+```
+
+For the backend:
+```bash
+# Build first
+make build-backend
+
+# Then run
+./bin/server
+```
+
+### Testing
 
 ```bash
-flake8 .
+# Go tests
+go test ./...
+
+# Rust tests  
+cd frontend
+cargo test
 ```
 
 ## Troubleshooting
@@ -178,13 +248,15 @@ flake8 .
    - Check the filename spelling and case sensitivity
    - Use the `!templates` or `/templates` command to list available templates
 
-3. **Font issues:**
-   - The bot uses system fonts. On Linux, install `fonts-dejavu` package
-   - On Windows/Mac, default fonts should work automatically
+3. **Build errors:**
+   - Go: Make sure you have Go 1.20+ installed
+   - Rust: Ensure you have Rust 1.70+ and trunk installed
+   - Run `go mod tidy` and `cargo clean` then rebuild
 
-4. **Image generation fails:**
-   - Check if Pillow is correctly installed: `pip install --upgrade Pillow`
-   - Ensure write permissions for the `output` directory
+4. **Frontend doesn't load:**
+   - Make sure you built the frontend: `make build-frontend`
+   - Check that the server is running on the correct port
+   - Verify `frontend/dist` directory exists and contains files
 
 ## Contributing
 
