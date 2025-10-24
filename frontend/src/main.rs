@@ -113,12 +113,27 @@ impl Component for App {
                     {
                         Ok(response) => {
                             if response.ok() {
-                                if let Ok(blob) = response.blob().await {
-                                    let url = web_sys::Url::create_object_url_with_blob(&blob)
-                                        .unwrap_or_default();
-                                    link.send_message(Msg::MemeGenerated(url));
-                                } else {
-                                    link.send_message(Msg::Error("Failed to process meme image".to_string()));
+                                match response.binary().await {
+                                    Ok(bytes) => {
+                                        // Convert bytes to Blob and create object URL
+                                        use web_sys::{Blob, BlobPropertyBag};
+                                        let parts = js_sys::Array::new();
+                                        parts.push(&js_sys::Uint8Array::from(&bytes[..]));
+                                        
+                                        let options = BlobPropertyBag::new();
+                                        options.set_type("image/png");
+                                        
+                                        match Blob::new_with_u8_array_sequence_and_options(&parts, &options) {
+                                            Ok(blob) => {
+                                                match web_sys::Url::create_object_url_with_blob(&blob) {
+                                                    Ok(url) => link.send_message(Msg::MemeGenerated(url)),
+                                                    Err(_) => link.send_message(Msg::Error("Failed to create object URL".to_string())),
+                                                }
+                                            }
+                                            Err(_) => link.send_message(Msg::Error("Failed to create blob".to_string())),
+                                        }
+                                    }
+                                    Err(_) => link.send_message(Msg::Error("Failed to read meme data".to_string())),
                                 }
                             } else {
                                 link.send_message(Msg::Error("Failed to generate meme".to_string()));
