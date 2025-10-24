@@ -160,3 +160,8 @@ go.work
 Cargo.lock
 **/*.rs.bk
 *.pdb
+
+# Node.js (if frontend dependencies are added in the future)
+node_modules/
+package-lock.json
+yarn.lock

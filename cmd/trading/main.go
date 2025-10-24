@@ -37,13 +37,16 @@ func main() {
 func startAPIServer(cfg *config.Config) {
 	router := mux.NewRouter()
 	
-	// API routes
+	// API routes (must come before static file handler)
 	router.HandleFunc("/api/health", healthHandler).Methods("GET")
 	router.HandleFunc("/api/status", statusHandler).Methods("GET")
 	router.HandleFunc("/api/candidates", candidatesHandler).Methods("GET")
 	router.HandleFunc("/api/metrics", metricsHandler).Methods("GET")
 	router.HandleFunc("/api/risk", riskHandler).Methods("GET")
 	router.HandleFunc("/api/risk/resume", resumeTradingHandler).Methods("POST")
+	
+	// Serve frontend static files for all other routes
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./frontend")))
 	
 	// CORS middleware
 	c := cors.New(cors.Options{

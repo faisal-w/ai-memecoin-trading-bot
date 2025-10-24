@@ -12,6 +12,7 @@ Built with **Go (Golang)**!
 - 💰 Automated trade execution with OKX Wallet SDK support
 - ⚠️ Advanced risk management and circuit breakers
 - 📈 Real-time metrics and monitoring via API
+- 🎨 Web dashboard for monitoring and control
 - 🔐 Security-first design with dry-run mode
 - 📱 Multi-agent architecture for scalability
 
@@ -46,13 +47,29 @@ make build
 make run-trading
 ```
 
-**Access the API:**
+**Access the Dashboard:**
+- Web Dashboard: http://localhost:8080
 - Health: http://localhost:8080/api/health
 - Status: http://localhost:8080/api/status
 - Candidates: http://localhost:8080/api/candidates
 - Metrics: http://localhost:8080/api/metrics
 
 **📚 Complete Guide:** See [TRADING_BOT.md](TRADING_BOT.md) for comprehensive documentation.
+
+## Web Dashboard
+
+The trading bot includes a modern web dashboard for real-time monitoring and control:
+
+**Features:**
+- 📊 Real-time status overview
+- 📈 Live metrics display (tokens found, filtered, candidates, trades)
+- ⚠️ Risk management monitoring
+- 🎯 Token candidate viewing
+- 🔄 Auto-refresh every 5 seconds
+- 📱 Responsive design
+
+**Access:**
+Simply navigate to http://localhost:8080 in your browser after starting the bot.
 
 ---
 
@@ -82,6 +99,10 @@ make build
 meme_bot/
 ├── cmd/                    # Go command-line applications
 │   └── trading/           # Trading bot
+├── frontend/              # Web dashboard
+│   ├── index.html        # Main dashboard page
+│   ├── styles.css        # Dashboard styles
+│   └── app.js            # Dashboard JavaScript
 ├── internal/              # Internal Go packages
 │   └── config/           # Configuration management
 ├── pkg/                   # Public Go packages
