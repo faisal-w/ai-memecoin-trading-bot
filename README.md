@@ -1,18 +1,34 @@
 # Meme Bot 🎭
 
-A versatile meme generation bot that works with both Discord and Telegram platforms, now featuring a modern web interface. Built with **Go (Golang)** for the backend and **Rust** for the frontend!
+A versatile project featuring:
+1. **Meme Generation Bot** - Discord and Telegram bot for creating memes with a modern web interface
+2. **🚀 NEW: Meme Coin Trading Bot** - Automated trading system for Solana and Base meme coins with AI-powered strategy evaluation
+
+Built with **Go (Golang)** for the backend and **Rust** for the frontend!
 
 ## Features
 
+### Meme Generation Bot
 - 🎨 Create memes from predefined templates
 - 🌐 Generate memes from any image URL
 - 💬 Support for both Discord and Telegram
 - 🖼️ Classic meme text styling (white text with black outline)
 - 📝 Easy-to-use command interface
-- 🔧 Configurable with environment variables
-- 🚀 **NEW:** Web-based frontend built with Rust (Yew framework)
-- ⚡ **NEW:** High-performance Go backend
+- 🚀 Web-based frontend built with Rust (Yew framework)
+- ⚡ High-performance Go backend
 - 🔌 RESTful API for frontend integration
+
+### 🆕 Meme Coin Trading Bot
+- 🔍 Automated scanning of Solana and Base chains for new tokens
+- 🛡️ Comprehensive honeypot detection and safety checks
+- 📊 Win probability calculation (≥80% threshold)
+- 💰 Automated trade execution with OKX Wallet SDK support
+- ⚠️ Advanced risk management and circuit breakers
+- 📈 Real-time metrics and monitoring via API
+- 🔐 Security-first design with dry-run mode
+- 📱 Multi-agent architecture for scalability
+
+**[📖 See Trading Bot Documentation](TRADING_BOT.md)** | **[🏗️ Architecture Guide](ARCHITECTURE.md)**
 
 ## Tech Stack
 
@@ -31,9 +47,50 @@ A versatile meme generation bot that works with both Discord and Telegram platfo
 ## Prerequisites
 
 - Go 1.20 or higher
-- Rust 1.70 or higher (with cargo)
-- Trunk (Rust WASM bundler): `cargo install trunk`
+- Rust 1.70 or higher (with cargo) - *Optional, only for frontend*
+- Trunk (Rust WASM bundler): `cargo install trunk` - *Optional, only for frontend*
+
+**For Meme Generation Bot:**
 - A Discord Bot Token (for Discord) or Telegram Bot Token (for Telegram)
+
+**For Trading Bot:**
+- Solana and Base RPC endpoints
+- OKX Wallet SDK or private key (for live trading)
+- API keys (CoinGecko, Twitter - optional)
+
+## Quick Start
+
+### Meme Generation Bot
+
+See the [original documentation below](#meme-generation-bot-usage) for Discord/Telegram/Web interface setup.
+
+### 🚀 Meme Coin Trading Bot
+
+**⚠️ Start in Dry-Run Mode (Recommended)**
+
+```bash
+# 1. Configure environment
+cp .env.example .env
+# Edit .env: ensure DRY_RUN=true, AUTO_EXECUTE=false
+
+# 2. Build
+make build-backend
+
+# 3. Run trading bot
+make run-trading
+```
+
+**Access the API:**
+- Health: http://localhost:8080/api/health
+- Status: http://localhost:8080/api/status
+- Candidates: http://localhost:8080/api/candidates
+- Metrics: http://localhost:8080/api/metrics
+
+**📚 Complete Guide:** See [TRADING_BOT.md](TRADING_BOT.md) for comprehensive documentation.
+
+---
+
+## Meme Generation Bot Usage
 
 ## Installation
 
